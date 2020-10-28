@@ -16,7 +16,7 @@ public class BellyMService {
         return bellyMRepo.getAllBellyMs();
     }
 
-    public void addEmployee(BellyMesurement bellyMesurement) {
+    public void addBellyM(BellyMesurement bellyMesurement) {
         bellyMRepo.addBellyM(bellyMesurement);
     }
 

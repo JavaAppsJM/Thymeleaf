@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title},~{})">
+    <meta charset="UTF-8">
+    <title>Display Health Measurements</title>
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <h2>All Measurements in System</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Measurement Id</th>
+            <th scope="col">Measurement Date</th>
+            <th scope="col">Circumreference</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--iterate over our list  which is given by our Model
+                it works the same as a java for each -->
+        <tr th:each="mesurement : ${bellyMs}">
+            <!--show values in our variable            -->
+            <td th:text="${{mesurement.mesureId}}">id</td>
+            <td th:text="${{mesurement.mesureDate}} ? ${{mesurement.mesureDate}} : 'not provided'">mesure Date</td>
+            <td th:text="${{mesurement.circumRef}} ? ${{mesurement.circumRef}} : 'not provided'">circumRef</td>
+            <td>
+                <!--the {id} will be replaced by the assignment between (id=${employee.id}) after that it navigates to this url   -->
+                <a class="btn btn-primary" type="button" th:href="@{/healthmesurements/{id}/editBellyM(id=${mesurement.mesureId})}">edit</a>
+                <a class="btn btn-warning" type="button" th:href="@{/healthmesurements/{id}/deleteBellyM(id=${mesurement.mesureId})}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -5,11 +5,11 @@ import com.example.dev1.services.BellyMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/healthmesurements")
@@ -33,7 +33,7 @@ public class MesureController {
         return new ModelAndView("addBellyM", modelMap);
     }
 
-    @GetMapping("/{id}/edit") // <---- Creates url in the form of localhost:port/healthmesurements/{id}/edit
+    @GetMapping("/{id}/editBellyM") // <---- Creates url in the form of localhost:port/healthmesurements/{id}/edit
     public ModelAndView showEditPage(@PathVariable("id") int id, ModelMap modelMap) {
         BellyMesurement bellyMesurement = bellyMService.findById(id);
         modelMap.addAttribute("belly", bellyMesurement);
@@ -41,7 +41,7 @@ public class MesureController {
         return new ModelAndView("editBellyM", modelMap);
     }
 
-    @GetMapping("/{id}/delete")
+    @GetMapping("/{id}/deleteBellyM")
     public ModelAndView delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         bellyMService.deleteById(id);
         redirectAttributes.addFlashAttribute("success", true); // this is used to show the toast or the alert bar in our page
@@ -49,6 +49,21 @@ public class MesureController {
          * If you don't want to send the view but just want the browser redirect to another URL.
          * You can prefix the url with redirect: which will go to the url localhost:????/employee/getAllEmployees
          */
-        return new ModelAndView("redirect:/getAllMs");
+        return new ModelAndView("redirect:/healthmesurements/getAllMs");
     }
+
+    @PostMapping("/editBellyM")
+    public ModelAndView save(@ModelAttribute BellyMesurement bellyMesurement) {
+        System.out.println("modelmap");
+        bellyMService.update(bellyMesurement);
+        return new ModelAndView("redirect:/healthmesurements/getAllMs");
+    }
+
+    @PostMapping("/addBellyM")
+    public ModelAndView addMesurement(@ModelAttribute BellyMesurement bellyMesurement) {
+        bellyMesurement.setMesureDate(LocalDate.now());
+        bellyMService.addBellyM(bellyMesurement);
+        return new ModelAndView("redirect:/healthmesurements/getAllMs");
+    }
+
 }
