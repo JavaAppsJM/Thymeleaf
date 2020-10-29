@@ -12,8 +12,14 @@
         <!--method is to say wich http method it will use-->
         <form th:action="@{/healthmesurements/addBellyM}" method="post">
             <div class="form-group">
-                <label for="bellyM">Buitkomtrek</label>
+                <label for="bellyM">Buikomtrek</label>
                 <input type="text" class="form-control" id="bellyM" name="circumRef">
+            </div>
+            <div class="form-group" id="editdatefields">
+                <label for="bellyDay">Datum</label>
+                <input type="text" class="form-control" id="bellyDay" name="day" value="0">
+                <input type="text" class="form-control" id="bellyMonth" name="month" value="0">
+                <input type="text" class="form-control" id="bellyYear" name="year" value="0">
             </div>
 
             <input type="submit" class="btn btn-primary" value="save">

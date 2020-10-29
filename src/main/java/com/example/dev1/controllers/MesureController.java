@@ -18,8 +18,8 @@ public class MesureController {
     BellyMService bellyMService;
 
     @GetMapping("/getAllMs")
-    public ModelAndView getAllEmployees(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
-        modelMap.addAttribute("bellyMs", bellyMService.getAllBellyMs());
+    public ModelAndView getAllMs(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
+        modelMap.addAttribute("belly", bellyMService.getAllBellyMs());
 
         /* the first parameter of the ModelAndView constructor must be the exact name of your view so mesurementsDisplay, which will fetch mesurementsDisplay.html
          * the second parameter is your modelMap which contains all the data that it needs to fill in our html page
@@ -29,15 +29,20 @@ public class MesureController {
 
     @GetMapping("/addBellyM")
     public ModelAndView showAddView(ModelMap modelMap) {
-        modelMap.addAttribute("belly",new BellyMesurement());
+        modelMap.addAttribute("belly",new MesureTemplate());
         return new ModelAndView("addBellyM", modelMap);
     }
 
     @GetMapping("/{id}/editBellyM") // <---- Creates url in the form of localhost:port/healthmesurements/{id}/edit
     public ModelAndView showEditPage(@PathVariable("id") int id, ModelMap modelMap) {
         BellyMesurement bellyMesurement = bellyMService.findById(id);
-        modelMap.addAttribute("belly", bellyMesurement);
-        modelMap.addAttribute("bellyid",bellyMesurement.getMesureId());
+        MesureTemplate mesureTemplate = new MesureTemplate();
+        mesureTemplate.setCircumRef(bellyMesurement.getCircumRef());
+        mesureTemplate.setMesureId(bellyMesurement.getMesureId());
+        mesureTemplate.setDay(bellyMesurement.getMesureDate().getDayOfMonth());
+        mesureTemplate.setMonth(bellyMesurement.getMesureDate().getMonthValue());
+        mesureTemplate.setYear(bellyMesurement.getMesureDate().getYear());
+        modelMap.addAttribute("belly", mesureTemplate);
         return new ModelAndView("editBellyM", modelMap);
     }
 
@@ -53,15 +58,26 @@ public class MesureController {
     }
 
     @PostMapping("/editBellyM")
-    public ModelAndView save(@ModelAttribute BellyMesurement bellyMesurement) {
-        System.out.println("modelmap");
+    public ModelAndView editBellyM(@ModelAttribute MesureTemplate template) {
+        BellyMesurement bellyMesurement = new BellyMesurement();
+        bellyMesurement.setMesureId(template.getMesureId());
+        bellyMesurement.setMesureDate
+                (LocalDate.of(template.getYear(),template.getMonth(),template.getDay()));
+        bellyMesurement.setCircumRef(template.getCircumRef());
         bellyMService.update(bellyMesurement);
         return new ModelAndView("redirect:/healthmesurements/getAllMs");
     }
 
     @PostMapping("/addBellyM")
-    public ModelAndView addMesurement(@ModelAttribute BellyMesurement bellyMesurement) {
-        bellyMesurement.setMesureDate(LocalDate.now());
+    public ModelAndView addBellyM(@ModelAttribute MesureTemplate template) {
+        BellyMesurement bellyMesurement = new BellyMesurement();
+        if (template.getDay() == 0  || template.getMonth() == 0 || template.getYear() == 0){
+            bellyMesurement.setMesureDate(LocalDate.now());
+        } else {
+            bellyMesurement.setMesureDate
+                    (LocalDate.of(template.getYear(),template.getMonth(),template.getDay()));
+        }
+        bellyMesurement.setCircumRef(template.getCircumRef());
         bellyMService.addBellyM(bellyMesurement);
         return new ModelAndView("redirect:/healthmesurements/getAllMs");
     }

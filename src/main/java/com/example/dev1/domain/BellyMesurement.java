@@ -3,10 +3,10 @@ package com.example.dev1.domain;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@NamedQuery(name = "getAllBellyMs",query = "select m from BellyMesurement as m")
+@NamedQuery(name = "getAllBellyMs",query = "select m from BellyMesurement as m order by m.mesureDate")
 @NamedQuery(name = "getBellyMById",query = "select m from BellyMesurement as m where m.mesureId=:srchid")
 @Entity
-public class BellyMesurement {
+public class BellyMesurement implements Measurement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int mesureId;
@@ -24,6 +24,11 @@ public class BellyMesurement {
     public BellyMesurement(LocalDate mesureDate, double circumRef) {
         this.mesureDate = mesureDate;
         this.circumRef = circumRef;
+    }
+
+    // Toch voorzien om de id bij een edit postmapping te kunnen binnen krijgen !
+    public void setMesureId(int mesureId) {
+        this.mesureId = mesureId;
     }
 
     public int getMesureId() {

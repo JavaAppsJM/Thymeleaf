@@ -1,33 +1,59 @@
-package com.example.dev1.domain;
+package com.example.dev1.controllers;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
-@NamedQuery(name = "getAllBloodMs",query = "select m from BloodPressureMesurement as m order by m.mesureDate")
-@NamedQuery(name = "getBloodMById",query = "select m from BloodPressureMesurement as m where m.mesureId=:srchid")
-
-@Entity
-public class BloodPressureMesurement {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class MesureTemplate {
     private int mesureId;
     private LocalDate mesureDate;
+    private int day;
+    private int month;
+    private int year;
+    private double circumRef;
     private double bloodPressureUp;
     private double bloodPressureDown;
     private double heartBeat;
 
-    public BloodPressureMesurement(double bloodPressureUp, double bloodPressureDown, double heartBeat) {
-        this.bloodPressureUp = bloodPressureUp;
-        this.bloodPressureDown = bloodPressureDown;
-        this.heartBeat = heartBeat;
-        this.mesureDate = LocalDate.now();
+    public MesureTemplate() {
     }
 
-    public BloodPressureMesurement(LocalDate mesureDate, double bloodPressureUp, double bloodPressureDown, double heartBeat) {
-        this.mesureDate = mesureDate;
-        this.bloodPressureUp = bloodPressureUp;
-        this.bloodPressureDown = bloodPressureDown;
-        this.heartBeat = heartBeat;
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public double getCircumRef() {
+        return circumRef;
+    }
+
+    public void setMesureId(int mesureId) {
+        this.mesureId = mesureId;
+    }
+
+    public void setCircumRef(double circumRef) {
+        this.circumRef = circumRef;
     }
 
     public int getMesureId() {

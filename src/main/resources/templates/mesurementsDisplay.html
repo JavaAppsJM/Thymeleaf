@@ -20,10 +20,10 @@
         <tbody>
         <!--iterate over our list  which is given by our Model
                 it works the same as a java for each -->
-        <tr th:each="mesurement : ${bellyMs}">
+        <tr th:each="mesurement : ${belly}">
             <!--show values in our variable            -->
             <td th:text="${{mesurement.mesureId}}">id</td>
-            <td th:text="${{mesurement.mesureDate}} ? ${{mesurement.mesureDate}} : 'not provided'">mesure Date</td>
+            <td th:text="${{mesurement.mesureDate}} ? ${{mesurement.mesureDate}} : 'not provided'">measurement Date</td>
             <td th:text="${{mesurement.circumRef}} ? ${{mesurement.circumRef}} : 'not provided'">circumRef</td>
             <td>
                 <!--the {id} will be replaced by the assignment between (id=${employee.id}) after that it navigates to this url   -->

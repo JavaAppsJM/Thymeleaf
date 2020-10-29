@@ -1,6 +1,8 @@
 package com.example.dev1.repositories;
 
 import com.example.dev1.domain.BellyMesurement;
+import com.example.dev1.domain.Measurement;
+import com.example.dev1.domain.MeasurementType;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -8,21 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class BellyMRepository {
+public class MeasurementRepository {
 
-    public void addBellyM(BellyMesurement bellyMesurement){
+    public <E extends Measurement> void addMeasurement(E measurement){
         EntityManagerFactory emf = null;
         EntityManager em = null;
         try {
             System.out.println("Entering add");
-            System.out.println("New belly mesurement: " + bellyMesurement.toString());
+            System.out.println("New belly measurement: " + measurement.toString());
+            // Define
             emf = Persistence.createEntityManagerFactory("mysqlcontainer");
             em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
             // Domain creations
-            System.out.println(bellyMesurement.toString());
+            System.out.println(measurement.toString());
             tx.begin();
-            em.persist(bellyMesurement);
+            em.persist(measurement);
             tx.commit();
             System.out.println("add finished");
         } catch (Exception e){
@@ -33,30 +36,37 @@ public class BellyMRepository {
         }
     }
 
-    public List<BellyMesurement> getAllBellyMs() {
+    public List<Measurement> getAllMeasurements(MeasurementType measureType) {
         EntityManagerFactory emf = null;
         EntityManager em = null;
-        List<BellyMesurement> bellyMesurements = new ArrayList<>();
+        List<Measurement> measurements = new ArrayList<>();
 
         try {
             System.out.println("Entering getAll");
             emf = Persistence.createEntityManagerFactory("mysqlcontainer");
             em = emf.createEntityManager();
             EntityTransaction tx =em.getTransaction();
-            TypedQuery<BellyMesurement> query = em.createNamedQuery("getAllBellyMs", BellyMesurement.class);
+
+            TypedQuery<Measurement> queryBel = em.createNamedQuery("getAllBellyMs", Measurement.class);
+            TypedQuery<Measurement> queryBlood = em.createNamedQuery("getAllBloodMs", Measurement.class);
 
             tx.begin();
-            bellyMesurements = query.getResultList();
+            if (measureType == MeasurementType.BELLY){
+                measurements = queryBel.getResultList();
+            }else{
+                measurements = queryBlood.getResultList();
+            }
             tx.commit();
+
             System.out.println("getAll finished");
         } finally {
             if (em != null) em.close();
             if (emf != null) emf.close();
-            return bellyMesurements;
+            return measurements;
         }
     }
 
-    public void deleteById(int id) {
+    public void deleteById(int id, MeasurementType measurementType) {
         EntityManagerFactory emf = null;
         EntityManager em = null;
 
@@ -66,16 +76,25 @@ public class BellyMRepository {
             emf = Persistence.createEntityManagerFactory("mysqlcontainer");
             em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
+            Measurement measurement;
             // Get employee by ID
-            TypedQuery<BellyMesurement> queryEmp = em.createNamedQuery("getBellyMById", BellyMesurement.class);
-            queryEmp.setParameter("srchid",id);
+            TypedQuery<Measurement> queryBel = em.createNamedQuery("getBellyMById", Measurement.class);
+            TypedQuery<Measurement> queryBlood = em.createNamedQuery("getBloodMById", Measurement.class);
+
             tx.begin();
-            BellyMesurement bellyMesurement = queryEmp.getSingleResult();
+            if (measurementType == MeasurementType.BELLY){
+                queryBel.setParameter("srchid",id);
+                measurement = queryBel.getSingleResult();
+            }else{
+                queryBlood.setParameter("srchid",id);
+                measurement = queryBlood.getSingleResult();
+            }
             tx.commit();
-            System.out.println("id found" + bellyMesurement.toString());
+
+            System.out.println("id found" + measurement.toString());
             // Remove employee
             tx.begin();
-            em.remove(bellyMesurement);
+            em.remove(measurement);
             tx.commit();
             System.out.println("delete finished");
         } catch (Exception exception){
@@ -87,27 +106,36 @@ public class BellyMRepository {
         }
     }
 
-    public BellyMesurement findById(int id) {
+    public Measurement findById(int id, MeasurementType measurementType) {
         EntityManagerFactory emf = null;
         EntityManager em = null;
-        BellyMesurement bellyMesurement = new BellyMesurement();
+        Measurement measurement;
 
         try {
             emf = Persistence.createEntityManagerFactory("mysqlcontainer");
             em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
             // Get employee by ID
-            TypedQuery<BellyMesurement> queryEmp = em.createNamedQuery("getBellyMById", BellyMesurement.class);
-            queryEmp.setParameter("srchid",id);
+            TypedQuery<Measurement> queryBel = em.createNamedQuery("getBellyMById", Measurement.class);
+            TypedQuery<Measurement> queryBlood = em.createNamedQuery("getBloodMById", Measurement.class);
+
             tx.begin();
-            bellyMesurement = queryEmp.getSingleResult();
+            if (measurementType == MeasurementType.BELLY){
+                queryBel.setParameter("srchid",id);
+                measurement = queryBel.getSingleResult();
+            }else{
+                queryBlood.setParameter("srchid",id);
+                measurement = queryBlood.getSingleResult();
+            }
             tx.commit();
+
+            System.out.println("id found" + measurement.toString());
         } catch (Exception exception){
             System.out.println(exception.getMessage().toString());
         } finally {
             if (em != null) em.close();
             if (emf != null) emf.close();
-            return bellyMesurement;
+            return measurement;
         }
     }
 
