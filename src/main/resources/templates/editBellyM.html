@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: common_header(~{::title},~{})">
-    <meta charset="UTF-8">
+<head th:replace="fragments/header :: common_header(~{::title})">
     <title>Edit Belly Measurement</title>
-    <link rel="stylesheet" th:href="@{/main.css}"/>
 </head>
 <body>
 <div th:insert="fragments/header :: navbar"></div>

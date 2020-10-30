@@ -4,18 +4,19 @@
 <!-- :: common_header(~{::title},~{::script}) will get the fragment common_header (so the small html part in our header.html)-->
 <!--the (~{::title},~{::script}) part works like method parameters ~{::title} will send the <title></title> tag to the fragment
 ~{::script} the scripts. This is to preserve the tags that are already between our head-->
-<head th:replace="fragments/header :: common_header(~{::title},~{::script})">
-    <meta charset="UTF-8">
+<head th:replace="fragments/header :: common_header(~{::title})">
     <title>Health Measurements</title>
-    <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
-    </script>
 
 </head>
 <body>
 <div th:insert="fragments/header :: navbar"></div>
 <h1>Health Measurements</h1>
+
+<h2>Thymeleaf experiments : </h2>
+
+<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
+
+<p th:utext="${#messages.msg('home.welcome')}">Welcome to our grocery store!</p>
+
 </body>
 </html>

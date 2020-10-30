@@ -109,7 +109,7 @@ public class MeasurementRepository {
     public Measurement findById(int id, MeasurementType measurementType) {
         EntityManagerFactory emf = null;
         EntityManager em = null;
-        Measurement measurement;
+        Measurement measurement = null;
 
         try {
             emf = Persistence.createEntityManagerFactory("mysqlcontainer");
