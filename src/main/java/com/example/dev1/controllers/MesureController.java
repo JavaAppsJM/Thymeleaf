@@ -18,71 +18,44 @@ import java.time.LocalDate;
 public class MesureController {
     @Autowired
     BellyMService bellyMService;
+    @Autowired
     MeasurementService measurementService;
 
     // Controllers for Belly measurements
     @GetMapping("/getAllBellyMs")
     public ModelAndView getAllBellyMs(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
         modelMap.addAttribute("belly", bellyMService.getAllBellyMs());
-
-        /* the first parameter of the ModelAndView constructor must be the exact name of your view so mesurementsDisplay, which will fetch mesurementsDisplay.html
-         * the second parameter is your modelMap which contains all the data that it needs to fill in our html page
-         * */
         return new ModelAndView("mesurementsDisplay", modelMap);
     }
 
     @GetMapping("/addBellyM")
     public ModelAndView addBellyM(ModelMap modelMap) {
-        modelMap.addAttribute("belly",new MesureTemplate());
+        modelMap.addAttribute("belly",new BellyMesurement());
         return new ModelAndView("addBellyM", modelMap);
     }
 
     @GetMapping("/{id}/editBellyM") // <---- Creates url in the form of localhost:port/healthmesurements/{id}/edit
     public ModelAndView showBellyM(@PathVariable("id") int id, ModelMap modelMap) {
         BellyMesurement bellyMesurement = bellyMService.findById(id);
-        MesureTemplate mesureTemplate = new MesureTemplate();
-        mesureTemplate.setCircumRef(bellyMesurement.getCircumRef());
-        mesureTemplate.setMesureId(bellyMesurement.getMesureId());
-        mesureTemplate.setDay(bellyMesurement.getMesureDate().getDayOfMonth());
-        mesureTemplate.setMonth(bellyMesurement.getMesureDate().getMonthValue());
-        mesureTemplate.setYear(bellyMesurement.getMesureDate().getYear());
-        modelMap.addAttribute("belly", mesureTemplate);
+        modelMap.addAttribute("belly", bellyMesurement);
         return new ModelAndView("editBellyM", modelMap);
     }
 
     @GetMapping("/{id}/deleteBellyM")
     public ModelAndView deleteBellyM(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         bellyMService.deleteById(id);
-        redirectAttributes.addFlashAttribute("success", true); // this is used to show the toast or the alert bar in our page
-        /**
-         * If you don't want to send the view but just want the browser redirect to another URL.
-         * You can prefix the url with redirect: which will go to the url localhost:????/employee/getAllEmployees
-         */
         return new ModelAndView("redirect:/healthmesurements/getAllBellyMs");
     }
 
     @PostMapping("/editBellyM")
-    public ModelAndView editBellyM(@ModelAttribute MesureTemplate template) {
-        BellyMesurement bellyMesurement = new BellyMesurement();
-        bellyMesurement.setMesureId(template.getMesureId());
-        bellyMesurement.setMesureDate
-                (LocalDate.of(template.getYear(),template.getMonth(),template.getDay()));
-        bellyMesurement.setCircumRef(template.getCircumRef());
-        bellyMService.update(bellyMesurement);
+    public ModelAndView editBellyM(@ModelAttribute BellyMesurement measurement) {
+        bellyMService.update(measurement);
         return new ModelAndView("redirect:/healthmesurements/getAllBellyMs");
     }
 
     @PostMapping("/addBellyM")
-    public ModelAndView addBellyM(@ModelAttribute MesureTemplate template) {
-        BellyMesurement bellyMesurement = new BellyMesurement();
-        if (template.getDay() == 0  || template.getMonth() == 0 || template.getYear() == 0){
-            bellyMesurement.setMesureDate(LocalDate.now());
-        } else {
-            bellyMesurement.setMesureDate
-                    (LocalDate.of(template.getYear(),template.getMonth(),template.getDay()));
-        }
-        bellyMesurement.setCircumRef(template.getCircumRef());
-        bellyMService.addBellyM(bellyMesurement);
+    public ModelAndView addBellyM(@ModelAttribute BellyMesurement measurement) {
+        bellyMService.addBellyM(measurement);
         return new ModelAndView("redirect:/healthmesurements/getAllBellyMs");
     }
 

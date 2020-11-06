@@ -31,7 +31,6 @@ public class BloodPressureMesurement {
     }
 
     public BloodPressureMesurement() {
-
     }
 
     public void setMesureId(int mesureId) {
