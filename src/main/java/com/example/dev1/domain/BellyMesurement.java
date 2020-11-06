@@ -6,7 +6,7 @@ import java.time.LocalDate;
 @NamedQuery(name = "getAllBellyMs",query = "select m from BellyMesurement as m order by m.mesureDate")
 @NamedQuery(name = "getBellyMById",query = "select m from BellyMesurement as m where m.mesureId=:srchid")
 @Entity
-public class BellyMesurement implements Measurement {
+public class BellyMesurement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int mesureId;
