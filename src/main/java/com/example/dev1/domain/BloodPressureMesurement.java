@@ -12,22 +12,30 @@ public class BloodPressureMesurement {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int mesureId;
     private LocalDate mesureDate;
-    private double bloodPressureUp;
-    private double bloodPressureDown;
+    private double bloodPressureHigh;
+    private double bloodPressureLow;
     private double heartBeat;
 
-    public BloodPressureMesurement(double bloodPressureUp, double bloodPressureDown, double heartBeat) {
-        this.bloodPressureUp = bloodPressureUp;
-        this.bloodPressureDown = bloodPressureDown;
+    public BloodPressureMesurement(double bloodPressureHigh, double bloodPressureLow, double heartBeat) {
+        this.bloodPressureHigh = bloodPressureHigh;
+        this.bloodPressureLow = bloodPressureLow;
         this.heartBeat = heartBeat;
         this.mesureDate = LocalDate.now();
     }
 
-    public BloodPressureMesurement(LocalDate mesureDate, double bloodPressureUp, double bloodPressureDown, double heartBeat) {
+    public BloodPressureMesurement(LocalDate mesureDate, double bloodPressureHigh, double bloodPressureLow, double heartBeat) {
         this.mesureDate = mesureDate;
-        this.bloodPressureUp = bloodPressureUp;
-        this.bloodPressureDown = bloodPressureDown;
+        this.bloodPressureHigh = bloodPressureHigh;
+        this.bloodPressureLow = bloodPressureLow;
         this.heartBeat = heartBeat;
+    }
+
+    public BloodPressureMesurement() {
+
+    }
+
+    public void setMesureId(int mesureId) {
+        this.mesureId = mesureId;
     }
 
     public int getMesureId() {
@@ -42,20 +50,20 @@ public class BloodPressureMesurement {
         this.mesureDate = mesureDate;
     }
 
-    public double getBloodPressureUp() {
-        return bloodPressureUp;
+    public double getBloodPressureHigh() {
+        return bloodPressureHigh;
     }
 
-    public void setBloodPressureUp(double bloodPressureUp) {
-        this.bloodPressureUp = bloodPressureUp;
+    public void setBloodPressureHigh(double bloodPressureHigh) {
+        this.bloodPressureHigh = bloodPressureHigh;
     }
 
-    public double getBloodPressureDown() {
-        return bloodPressureDown;
+    public double getBloodPressureLow() {
+        return bloodPressureLow;
     }
 
-    public void setBloodPressureDown(double bloodPressureDown) {
-        this.bloodPressureDown = bloodPressureDown;
+    public void setBloodPressureLow(double bloodPressureLow) {
+        this.bloodPressureLow = bloodPressureLow;
     }
 
     public double getHeartBeat() {
@@ -71,8 +79,8 @@ public class BloodPressureMesurement {
         return "BloodPressureMesurement{" +
                 "mesureId=" + mesureId +
                 ", mesureDate=" + mesureDate +
-                ", bloodPressureUp=" + bloodPressureUp +
-                ", bloodPressureDown=" + bloodPressureDown +
+                ", bloodPressureUp=" + bloodPressureHigh +
+                ", bloodPressureDown=" + bloodPressureLow +
                 ", heartBeat=" + heartBeat +
                 '}';
     }

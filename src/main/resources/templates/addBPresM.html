@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title})">
+    <title>Add Blood Pressure Measurement</title>
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <div class="container">
+        <!--th:action defines the url to where to send the data of our form. Our controller will pick this up-->
+        <!--method is to say wich http method it will use-->
+        <form th:action="@{/healthmesurements/addBPresM}" method="post">
+            <div class="form-group">
+                <label for="hartslagM">Hartslag</label>
+                <input type="text" class="form-control" id="hartslagM" name="heartBeat">
+                <label for="bpresHM">Hartslag</label>
+                <input type="text" class="form-control" id="bpresHM" name="bloodPressureHigh">
+                <label for="bpresHL">Hartslag</label>
+                <input type="text" class="form-control" id="bpresHL" name="bloodPressureLow">
+            </div>
+            <div class="form-group" id="editdatefields">
+                <label for="bellyDay">Datum</label>
+                <input type="text" class="form-control" id="bellyDay" name="day" value="0">
+                <input type="text" class="form-control" id="bellyMonth" name="month" value="0">
+                <input type="text" class="form-control" id="bellyYear" name="year" value="0">
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="save">
+        </form>
+    </div>
+</div>
+</body>
+</html>

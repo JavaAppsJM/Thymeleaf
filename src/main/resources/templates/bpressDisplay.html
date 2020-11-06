@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title})">
+    <title>Display Health Measurements</title>
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <h2>All Blood Pressure Measurements in System</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Measurement Id</th>
+            <th scope="col">Measurement Date</th>
+            <th scope="col">Heart Beat</th>
+            <th scope="col">Blood Pressure High</th>
+            <th scope="col">Blood Pressure Low</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--iterate over our list  which is given by our Model
+                it works the same as a java for each -->
+        <tr th:each="measurement : ${bpres}">
+            <!--show values in our variable            -->
+            <td th:text="${{measurement.mesureId}}">id</td>
+            <td th:text="${{measurement.mesureDate}} ? ${{measurement.mesureDate}} : 'not provided'">measurement Date</td>
+            <td th:text="${{measurement.heartBeat}} ? ${{measurement.heartBeat}} : 'not provided'">heartBeat</td>
+            <td th:text="${{measurement.bloodPressureHigh}} ? ${{measurement.bloodPressureHigh}} : 'not provided'">bloodPressureHigh</td>
+            <td th:text="${{measurement.bloodPressureLow}} ? ${{measurement.bloodPressureLow}} : 'not provided'">bloodPressureLow</td>
+            <td>
+                <!--the {id} will be replaced by the assignment between (id=${employee.id}) after that it navigates to this url   -->
+                <a class="btn btn-primary" type="button" th:href="@{/healthmesurements/{id}/editBPresM(id=${measurement.mesureId})}">edit</a>
+                <a class="btn btn-warning" type="button" th:href="@{/healthmesurements/{id}/deleteBPresM(id=${measurement.mesureId})}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
