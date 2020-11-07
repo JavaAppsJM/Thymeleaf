@@ -1,11 +1,16 @@
 package com.example.dev1.controllers;
 
+import com.example.dev1.domain.BellyMesurement;
+import com.example.dev1.domain.BloodPressureMesurement;
+
 import java.time.LocalDate;
 
 public class HTMLTemplate {
     private String hTitle;
     private String hFormActionUrl;
     private String[][] hList;
+    private BellyMesurement bellyMesurement;
+    private BloodPressureMesurement bloodPressureMesurement;
 
     private int mesureId;
     private LocalDate mesureDate;
@@ -18,6 +23,22 @@ public class HTMLTemplate {
     private double heartBeat;
 
     public HTMLTemplate() {
+    }
+
+    public BellyMesurement getBellyMesurement() {
+        return bellyMesurement;
+    }
+
+    public void setBellyMesurement(BellyMesurement bellyMesurement) {
+        this.bellyMesurement = bellyMesurement;
+    }
+
+    public BloodPressureMesurement getBloodPressureMesurement() {
+        return bloodPressureMesurement;
+    }
+
+    public void setBloodPressureMesurement(BloodPressureMesurement bloodPressureMesurement) {
+        this.bloodPressureMesurement = bloodPressureMesurement;
     }
 
     public String gethTitle() {

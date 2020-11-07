@@ -19,15 +19,22 @@ public class MeasurementService {
     BPresMRepository bpresMRepo;
 
     // Belly services
-    public MesureTemplate fillBellyTemplate(BellyMesurement bellyMesurement){
-        MesureTemplate mesureTemplate = new MesureTemplate();
-        mesureTemplate.setCircumRef(bellyMesurement.getCircumRef());
-        mesureTemplate.setMesureId(bellyMesurement.getMesureId());
-        mesureTemplate.setDay(bellyMesurement.getMesureDate().getDayOfMonth());
-        mesureTemplate.setMonth(bellyMesurement.getMesureDate().getMonthValue());
-        mesureTemplate.setYear(bellyMesurement.getMesureDate().getYear());
+    public HTMLTemplate fillBellyInHtmlTemplate(BellyMesurement bellyMesurement){
+        String[][] tempList = new String[1][2];
+        tempList[0][0] = "Buikomtrek";
+        tempList[0][1] = "circumRef";
+        HTMLTemplate htmlTemplate = new HTMLTemplate();
+        htmlTemplate.sethTitle("Add Generic Measurement");
+        htmlTemplate.sethFormActionUrl("@{/healthmeasurements/addGenBellyM}");
+        htmlTemplate.sethList(tempList);
+        htmlTemplate.setBellyMesurement(bellyMesurement);
+//        htmlTemplate.setCircumRef(bellyMesurement.getCircumRef());
+//        htmlTemplate.setMesureId(bellyMesurement.getMesureId());
+        htmlTemplate.setDay(bellyMesurement.getMesureDate().getDayOfMonth());
+        htmlTemplate.setMonth(bellyMesurement.getMesureDate().getMonthValue());
+        htmlTemplate.setYear(bellyMesurement.getMesureDate().getYear());
 
-        return mesureTemplate;
+        return htmlTemplate;
     }
 
     public BellyMesurement moveTemplateInBelly(HTMLTemplate template){
@@ -65,7 +72,47 @@ public class MeasurementService {
         bellyMRepo.deleteById(id);
     }
 
+
     // Blood pressure services
+    public HTMLTemplate fillBPresInHtmlTemplate(BloodPressureMesurement measurement){
+        String[][] tempList = new String[3][2];
+        tempList[0][0] = "Hartslag";
+        tempList[0][1] = "HeartBeat";
+        tempList[1][0] = "Bloeddruk bovendruk";
+        tempList[1][1] = "bloodPressureHigh";
+        tempList[2][0] = "Bloeddruk onderdruk";
+        tempList[2][1] = "bloodPressureLow";
+        HTMLTemplate htmlTemplate = new HTMLTemplate();
+        htmlTemplate.sethTitle("Add Generic Blood Pressure Measurement");
+        htmlTemplate.sethFormActionUrl("@{/healthmeasurements/addGenBPresM}");
+        htmlTemplate.sethList(tempList);
+        htmlTemplate.setBloodPressureMesurement(measurement);
+//        htmlTemplate.setHeartBeat(measurement.getHeartBeat());
+//        htmlTemplate.setMesureId(measurement.getMesureId());
+        htmlTemplate.setDay(measurement.getMesureDate().getDayOfMonth());
+        htmlTemplate.setMonth(measurement.getMesureDate().getMonthValue());
+        htmlTemplate.setYear(measurement.getMesureDate().getYear());
+
+        return htmlTemplate;
+    }
+
+    public BloodPressureMesurement moveTemplateInBPres(HTMLTemplate template){
+        BloodPressureMesurement measurement = new BloodPressureMesurement();
+        measurement.setMesureId(template.getMesureId());
+        if (template.getDay() == 0  || template.getMonth() == 0 || template.getYear() == 0){
+            measurement.setMesureDate(LocalDate.now());
+        } else {
+            measurement.setMesureDate
+                    (LocalDate.of(template.getYear(),template.getMonth(),template.getDay()));
+        }
+        measurement.setHeartBeat(template.getHeartBeat());
+        measurement.setBloodPressureHigh(template.getBloodPressureHigh());
+        measurement.setBloodPressureLow(template.getBloodPressureLow());
+
+        return measurement;
+    }
+
+    // Blood Pressure repo services
     public List<BloodPressureMesurement> getAllBPresMs(){
         return bpresMRepo.getAllBPresMs();
     }
