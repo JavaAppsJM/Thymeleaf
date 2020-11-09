@@ -26,8 +26,8 @@
             <td th:text="${{mesurement.circumRef}} ? ${{mesurement.circumRef}} : 'not provided'">circumRef</td>
             <td>
                 <!--the {id} will be replaced by the assignment between (id=${employee.id}) after that it navigates to this url   -->
-                <a class="btn btn-primary" type="button" th:href="@{/healthmesurements/{id}/editBellyM(id=${mesurement.mesureId})}">edit</a>
-                <a class="btn btn-warning" type="button" th:href="@{/healthmesurements/{id}/deleteBellyM(id=${mesurement.mesureId})}">delete</a>
+                <a class="btn btn-primary" type="button" th:href="@{/healthmeasurements/{id}/editGenBellyM(id=${mesurement.mesureId})}">edit</a>
+                <a class="btn btn-warning" type="button" th:href="@{/healthmeasurements/{id}/deleteGenBellyM(id=${mesurement.mesureId})}">delete</a>
             </td>
         </tr>
         </tbody>

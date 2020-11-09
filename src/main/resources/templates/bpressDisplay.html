@@ -30,8 +30,8 @@
             <td th:text="${{measurement.bloodPressureLow}} ? ${{measurement.bloodPressureLow}} : 'not provided'">bloodPressureLow</td>
             <td>
                 <!--the {id} will be replaced by the assignment between (id=${employee.id}) after that it navigates to this url   -->
-                <a class="btn btn-primary" type="button" th:href="@{/healthmesurements/{id}/editBPresM(id=${measurement.mesureId})}">edit</a>
-                <a class="btn btn-warning" type="button" th:href="@{/healthmesurements/{id}/deleteBPresM(id=${measurement.mesureId})}">delete</a>
+                <a class="btn btn-primary" type="button" th:href="@{/healthmeasurements/{id}/editGenBPresM(id=${measurement.mesureId})}">edit</a>
+                <a class="btn btn-warning" type="button" th:href="@{/healthmeasurements/{id}/deleteGenBPresM(id=${measurement.mesureId})}">delete</a>
             </td>
         </tr>
         </tbody>

@@ -1,7 +1,6 @@
 package com.example.dev1.services;
 
 import com.example.dev1.controllers.HTMLTemplate;
-import com.example.dev1.controllers.MesureTemplate;
 import com.example.dev1.domain.BellyMesurement;
 import com.example.dev1.domain.BloodPressureMesurement;
 import com.example.dev1.repositories.BPresMRepository;
@@ -19,21 +18,26 @@ public class MeasurementService {
     BPresMRepository bpresMRepo;
 
     // Belly services
-    public HTMLTemplate fillBellyInHtmlTemplate(BellyMesurement bellyMesurement){
-        String[][] tempList = new String[1][2];
+    public HTMLTemplate fillBellyInHtmlTemplate(BellyMesurement bellyMesurement, String action){
+        String[][] tempList = new String[1][3];
         tempList[0][0] = "Buikomtrek";
         tempList[0][1] = "circumRef";
+        tempList[0][2] = String.valueOf(bellyMesurement.getCircumRef());
         HTMLTemplate htmlTemplate = new HTMLTemplate();
-        htmlTemplate.sethTitle("Add Generic Measurement");
-        htmlTemplate.sethFormActionUrl("@{/healthmeasurements/addGenBellyM}");
+        String pTitle = action + " Belly Measurement";
+        htmlTemplate.sethTitle(pTitle);
+        String formActURL = "@{/healthmeasurements/" + action + "GenBellyM}";
+        htmlTemplate.sethFormActionUrl(formActURL);
         htmlTemplate.sethList(tempList);
         htmlTemplate.setBellyMesurement(bellyMesurement);
-//        htmlTemplate.setCircumRef(bellyMesurement.getCircumRef());
-//        htmlTemplate.setMesureId(bellyMesurement.getMesureId());
+        htmlTemplate.setCircumRef(bellyMesurement.getCircumRef());
+        htmlTemplate.setMesureId(bellyMesurement.getMesureId());
+        if (bellyMesurement.getMesureDate() == null){
+            bellyMesurement.setMesureDate(LocalDate.now());
+        }
         htmlTemplate.setDay(bellyMesurement.getMesureDate().getDayOfMonth());
         htmlTemplate.setMonth(bellyMesurement.getMesureDate().getMonthValue());
         htmlTemplate.setYear(bellyMesurement.getMesureDate().getYear());
-
         return htmlTemplate;
     }
 
@@ -74,21 +78,31 @@ public class MeasurementService {
 
 
     // Blood pressure services
-    public HTMLTemplate fillBPresInHtmlTemplate(BloodPressureMesurement measurement){
-        String[][] tempList = new String[3][2];
+    public HTMLTemplate fillBPresInHtmlTemplate(BloodPressureMesurement measurement, String action){
+        String[][] tempList = new String[3][3];
         tempList[0][0] = "Hartslag";
         tempList[0][1] = "HeartBeat";
         tempList[1][0] = "Bloeddruk bovendruk";
         tempList[1][1] = "bloodPressureHigh";
         tempList[2][0] = "Bloeddruk onderdruk";
         tempList[2][1] = "bloodPressureLow";
+        tempList[0][2] = String.valueOf(measurement.getHeartBeat());
+        tempList[1][2] = String.valueOf(measurement.getBloodPressureHigh());
+        tempList[2][2] = String.valueOf(measurement.getBloodPressureLow());
         HTMLTemplate htmlTemplate = new HTMLTemplate();
-        htmlTemplate.sethTitle("Add Generic Blood Pressure Measurement");
-        htmlTemplate.sethFormActionUrl("@{/healthmeasurements/addGenBPresM}");
+        String pTitle = action + " Blood Pressure Measurement";
+        htmlTemplate.sethTitle(pTitle);
+        String formActURL = "@{/healthmeasurements/" + action + "GenBPresM}";
+        htmlTemplate.sethFormActionUrl(formActURL);
         htmlTemplate.sethList(tempList);
         htmlTemplate.setBloodPressureMesurement(measurement);
-//        htmlTemplate.setHeartBeat(measurement.getHeartBeat());
-//        htmlTemplate.setMesureId(measurement.getMesureId());
+        htmlTemplate.setHeartBeat(measurement.getHeartBeat());
+        htmlTemplate.setBloodPressureHigh(measurement.getBloodPressureHigh());
+        htmlTemplate.setBloodPressureLow(measurement.getBloodPressureLow());
+        htmlTemplate.setMesureId(measurement.getMesureId());
+        if (measurement.getMesureDate() == null){
+            measurement.setMesureDate(LocalDate.now());
+        }
         htmlTemplate.setDay(measurement.getMesureDate().getDayOfMonth());
         htmlTemplate.setMonth(measurement.getMesureDate().getMonthValue());
         htmlTemplate.setYear(measurement.getMesureDate().getYear());
