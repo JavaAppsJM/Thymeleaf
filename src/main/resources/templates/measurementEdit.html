@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head >
     <title th:text="${{GenMap.hTitle}}">Placeholder Title</title>
-    <link rel="stylesheet" href="src/main/resources/static/main.css">
+    <link rel="stylesheet" href="main.css" th:href="@{main.css}" type="text/css" media="all">
 
 </head>
 <body>
@@ -16,6 +16,8 @@
                 <label th:for="${{row[0]}}" th:text="${{row[0]}}">placeholder</label>
                 <input type="text" class="form-control" th:id="${{row[0]}}" th:name="${{row[1]}}" th:value="${{row[2]}}">
             </div>
+
+            <input type="hidden" class="form-control" id="bellyId" name="mesureId" th:value="${GenMap.mesureId}">
 
             <div class="form-group" id="editdatefields">
                 <label for="bellyDay">Date</label>
@@ -35,7 +37,7 @@
     Dit is de footer placeholder !!
 </div>
 
-<script src="script.js"></script>
+<script src="script.js" th:src="@{script.js}"></script>
 
 </body>
 </html>

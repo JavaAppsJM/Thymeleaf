@@ -19,6 +19,7 @@ public class HTMLController {
     // Controllers for Belly measurements
     @GetMapping("/getAllGenBellyMs")
     public ModelAndView getAllGenBellyMs(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
+        modelMap.addAttribute("collist", measurementService.fillBellyColTemplate());
         modelMap.addAttribute("belly", measurementService.getAllBellyMs());
         return new ModelAndView("bellyDisplay", modelMap);
     }
@@ -59,8 +60,11 @@ public class HTMLController {
 
     @GetMapping("/getAllGenBPresMs")
     public ModelAndView getAllGenBPresMs(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
-        modelMap.addAttribute("bpres", measurementService.getAllBPresMs());
-        return new ModelAndView("bpressDisplay", modelMap);
+        modelMap.addAttribute("collist", measurementService.fillBPresColTemplate(measurementService.getAllBPresMs()));
+        modelMap.addAttribute("measurements", measurementService.getAllBPresMs());
+        return new ModelAndView("measurementDisplay", modelMap);
+//        modelMap.addAttribute("bpres", measurementService.getAllBPresMs());
+//        return new ModelAndView("bpressDisplay", modelMap);
     }
 
     @GetMapping("/addGenBPresM")
@@ -71,7 +75,7 @@ public class HTMLController {
 
     @PostMapping("/addGenBPresM")
     public ModelAndView addPostGenBPresM(@ModelAttribute HTMLTemplate template) {
-        measurementService.addBellyM(measurementService.moveTemplateInBelly(template));
+        measurementService.addBPresM(measurementService.moveTemplateInBPres(template));
         return new ModelAndView("redirect:/healthmeasurements/getAllGenBPresMs");
     }
 

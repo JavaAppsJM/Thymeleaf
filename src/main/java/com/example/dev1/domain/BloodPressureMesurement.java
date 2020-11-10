@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 @NamedQuery(name = "getAllBloodMs",query = "select m from BloodPressureMesurement as m order by m.mesureDate")
 @NamedQuery(name = "getBloodMById",query = "select m from BloodPressureMesurement as m where m.mesureId=:srchid")
-
 @Entity
 public class BloodPressureMesurement {
     @Id

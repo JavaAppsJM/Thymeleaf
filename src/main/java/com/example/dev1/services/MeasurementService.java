@@ -1,5 +1,6 @@
 package com.example.dev1.services;
 
+import com.example.dev1.controllers.HTMLColumnListD;
 import com.example.dev1.controllers.HTMLTemplate;
 import com.example.dev1.domain.BellyMesurement;
 import com.example.dev1.domain.BloodPressureMesurement;
@@ -15,18 +16,33 @@ import java.util.List;
 public class MeasurementService {
     @Autowired
     BellyMRepository bellyMRepo;
+    @Autowired
     BPresMRepository bpresMRepo;
 
     // Belly services
+    public HTMLColumnListD fillBellyColTemplate(){
+        String[] colList = new String[4];
+        colList[0] = "Measurement Id";
+        colList[1] = "Measurement Date";
+        colList[2] = "Circum Reference";
+        colList[3] = "Actions";
+
+        HTMLColumnListD hColTemplate = new HTMLColumnListD();
+        hColTemplate.sethTitle("Display Belly Measurements");
+        hColTemplate.sethList(colList);
+
+        return hColTemplate;
+    }
+
     public HTMLTemplate fillBellyInHtmlTemplate(BellyMesurement bellyMesurement, String action){
         String[][] tempList = new String[1][3];
         tempList[0][0] = "Buikomtrek";
         tempList[0][1] = "circumRef";
         tempList[0][2] = String.valueOf(bellyMesurement.getCircumRef());
         HTMLTemplate htmlTemplate = new HTMLTemplate();
-        String pTitle = action + " Belly Measurement";
+        String pTitle = action.toUpperCase() + " Belly Measurement";
         htmlTemplate.sethTitle(pTitle);
-        String formActURL = "@{/healthmeasurements/" + action + "GenBellyM}";
+        String formActURL = "/healthmeasurements/" + action + "GenBellyM";
         htmlTemplate.sethFormActionUrl(formActURL);
         htmlTemplate.sethList(tempList);
         htmlTemplate.setBellyMesurement(bellyMesurement);
@@ -78,6 +94,40 @@ public class MeasurementService {
 
 
     // Blood pressure services
+    public HTMLColumnListD fillBPresColTemplate(List<BloodPressureMesurement> bloodPressureMesurementList){
+        String[] colList = new String[6];
+        colList[0] = "Measurement Id";
+        colList[1] = "Measurement Date";
+        colList[2] = "Heart Beat";
+        colList[3] = "Blood Pressure High";
+        colList[4] = "Blood Pressure Low";
+        colList[5] = "Actions";
+
+        HTMLColumnListD hColTemplate = new HTMLColumnListD();
+        hColTemplate.sethTitle("Display Blood Pressure Measurements");
+        hColTemplate.sethList(colList);
+
+        String[][] displayList = new String[bloodPressureMesurementList.size()][5];
+        int i = 0;
+        int j = 0;
+        for (BloodPressureMesurement b: bloodPressureMesurementList) {
+            displayList[i][j] = String.valueOf(b.getMesureId());
+            j++;
+            displayList[i][j] = String.valueOf(b.getMesureDate());
+            j++;
+            displayList[i][j] = String.valueOf(b.getHeartBeat());
+            j++;
+            displayList[i][j] = String.valueOf(b.getBloodPressureHigh());
+            j++;
+            displayList[i][j] = String.valueOf(b.getBloodPressureLow());
+            j = 0;
+            i++;
+        }
+        hColTemplate.sethDisplayList(displayList);
+
+        return hColTemplate;
+    }
+
     public HTMLTemplate fillBPresInHtmlTemplate(BloodPressureMesurement measurement, String action){
         String[][] tempList = new String[3][3];
         tempList[0][0] = "Hartslag";
@@ -92,7 +142,7 @@ public class MeasurementService {
         HTMLTemplate htmlTemplate = new HTMLTemplate();
         String pTitle = action + " Blood Pressure Measurement";
         htmlTemplate.sethTitle(pTitle);
-        String formActURL = "@{/healthmeasurements/" + action + "GenBPresM}";
+        String formActURL = "/healthmeasurements/" + action + "GenBPresM";
         htmlTemplate.sethFormActionUrl(formActURL);
         htmlTemplate.sethList(tempList);
         htmlTemplate.setBloodPressureMesurement(measurement);
