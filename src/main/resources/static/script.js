@@ -10,8 +10,8 @@ var eElemNode = document.createElement('blockquote');
 eElemNode.setAttribute("id","ideetje");
 eElemNode.setAttribute("name","nametje");
 eElemNode.setAttribute("class","classtje");
-eElemNode.setAttribute("style","styletje");
-eElemNode.innerHTML = "inhoud dfkhgdsghsmdgohmqseghmqeghmqoigeergvnhmq:vhnjqdfhjk";
+eElemNode.setAttribute("style","color:white");
+eElemNode.innerHTML = "Javascript experiment";
 eDivJavascript.appendChild(eElemNode);
 
 }

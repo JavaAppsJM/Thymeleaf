@@ -19,9 +19,10 @@ public class HTMLController {
     // Controllers for Belly measurements
     @GetMapping("/getAllGenBellyMs")
     public ModelAndView getAllGenBellyMs(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
-        modelMap.addAttribute("collist", measurementService.fillBellyColTemplate());
-        modelMap.addAttribute("belly", measurementService.getAllBellyMs());
-        return new ModelAndView("bellyDisplay", modelMap);
+        modelMap.addAttribute("collist", measurementService.fillBellyColTemplate(measurementService.getAllBellyMs()));
+        return new ModelAndView("measurementDisplay", modelMap);
+//        modelMap.addAttribute("belly", measurementService.getAllBellyMs());
+//        return new ModelAndView("bellyDisplay", modelMap);
     }
 
     @GetMapping("/addGenBellyM")

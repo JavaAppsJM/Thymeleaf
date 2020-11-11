@@ -20,23 +20,37 @@ public class MeasurementService {
     BPresMRepository bpresMRepo;
 
     // Belly services
-    public HTMLColumnListD fillBellyColTemplate(){
+    public HTMLColumnListD fillBellyColTemplate(List<BellyMesurement> bellyMesurementList){
         String[] colList = new String[4];
         colList[0] = "Measurement Id";
         colList[1] = "Measurement Date";
-        colList[2] = "Circum Reference";
+        colList[2] = "Circumreference";
         colList[3] = "Actions";
+        String[][] displayList = new String[bellyMesurementList.size()][3];
+        int i = 0;
+        int j = 0;
+        for (BellyMesurement b: bellyMesurementList) {
+            displayList[i][j] = String.valueOf(b.getMesureId());
+            j++;
+            displayList[i][j] = String.valueOf(b.getMesureDate());
+            j++;
+            displayList[i][j] = String.valueOf(b.getCircumRef());
+            j = 0;
+            i++;
+        }
 
         HTMLColumnListD hColTemplate = new HTMLColumnListD();
-        hColTemplate.sethTitle("Display Belly Measurements");
         hColTemplate.sethList(colList);
+        hColTemplate.sethDisplayList(displayList);
+        hColTemplate.sethTitle("Display Belly Measurements");
+        hColTemplate.sethMType("BellyM");
 
         return hColTemplate;
     }
 
     public HTMLTemplate fillBellyInHtmlTemplate(BellyMesurement bellyMesurement, String action){
         String[][] tempList = new String[1][3];
-        tempList[0][0] = "Buikomtrek";
+        tempList[0][0] = "Circumreference";
         tempList[0][1] = "circumRef";
         tempList[0][2] = String.valueOf(bellyMesurement.getCircumRef());
         HTMLTemplate htmlTemplate = new HTMLTemplate();
@@ -102,11 +116,6 @@ public class MeasurementService {
         colList[3] = "Blood Pressure High";
         colList[4] = "Blood Pressure Low";
         colList[5] = "Actions";
-
-        HTMLColumnListD hColTemplate = new HTMLColumnListD();
-        hColTemplate.sethTitle("Display Blood Pressure Measurements");
-        hColTemplate.sethList(colList);
-
         String[][] displayList = new String[bloodPressureMesurementList.size()][5];
         int i = 0;
         int j = 0;
@@ -123,24 +132,29 @@ public class MeasurementService {
             j = 0;
             i++;
         }
+
+        HTMLColumnListD hColTemplate = new HTMLColumnListD();
+        hColTemplate.sethList(colList);
         hColTemplate.sethDisplayList(displayList);
+        hColTemplate.sethTitle("Display Blood Pressure Measurements");
+        hColTemplate.sethMType("BPresM");
 
         return hColTemplate;
     }
 
     public HTMLTemplate fillBPresInHtmlTemplate(BloodPressureMesurement measurement, String action){
         String[][] tempList = new String[3][3];
-        tempList[0][0] = "Hartslag";
+        tempList[0][0] = "Heart Beat";
         tempList[0][1] = "HeartBeat";
-        tempList[1][0] = "Bloeddruk bovendruk";
+        tempList[1][0] = "Blood Upper Pressure";
         tempList[1][1] = "bloodPressureHigh";
-        tempList[2][0] = "Bloeddruk onderdruk";
+        tempList[2][0] = "Blood Lower Pressure";
         tempList[2][1] = "bloodPressureLow";
         tempList[0][2] = String.valueOf(measurement.getHeartBeat());
         tempList[1][2] = String.valueOf(measurement.getBloodPressureHigh());
         tempList[2][2] = String.valueOf(measurement.getBloodPressureLow());
         HTMLTemplate htmlTemplate = new HTMLTemplate();
-        String pTitle = action + " Blood Pressure Measurement";
+        String pTitle = action.toUpperCase() + " Blood Pressure Measurement";
         htmlTemplate.sethTitle(pTitle);
         String formActURL = "/healthmeasurements/" + action + "GenBPresM";
         htmlTemplate.sethFormActionUrl(formActURL);

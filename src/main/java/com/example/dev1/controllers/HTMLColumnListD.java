@@ -10,9 +10,18 @@ public class HTMLColumnListD {
     private String hFormActionUrl;
     private String[] hList;
     private String[][] hDisplayList;
+    private String hMType;
 
 
     public HTMLColumnListD() {
+    }
+
+    public String gethMType() {
+        return hMType;
+    }
+
+    public void sethMType(String hMType) {
+        this.hMType = hMType;
     }
 
     public String[][] gethDisplayList() {
