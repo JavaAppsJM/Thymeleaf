@@ -11,7 +11,7 @@
     <div class="container">
         <h2 th:text="${{GenMap.hTitle}}">placeholder</h2>
         <form th:action="${{GenMap.hFormActionUrl}}" method="post">
-            <div class="form-group" th:each="row : ${GenMap.hList}">
+            <div class="form-group" th:each="row : ${GenMap.hFormContentList}">
                 <label th:for="${{row[0]}}" th:text="${{row[0]}}">placeholder</label>
                 <input type="text" class="form-control" th:id="${{row[0]}}" th:name="${{row[1]}}" th:value="${{row[2]}}">
             </div>
@@ -19,7 +19,7 @@
             <input type="hidden" class="form-control" id="bellyId" name="mesureId" th:value="${GenMap.mesureId}">
 
             <div class="form-group" id="editdatefields">
-                <label for="bellyDay">Date</label>
+                <label for="bellyDay" th:text="${{GenMap.labelMesureDate}}">Date</label>
                 <input type="text" class="form-control" id="bellyDay" name="day" th:value="${{GenMap.day}}">
                 <input type="text" class="form-control" id="bellyMonth" name="month" th:value="${{GenMap.month}}">
                 <input type="text" class="form-control" id="bellyYear" name="year" th:value="${{GenMap.year}}">

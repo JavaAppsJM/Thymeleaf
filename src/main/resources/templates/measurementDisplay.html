@@ -12,17 +12,17 @@
     <table class="table" border=1>
         <thead class="thead-dark">
         <tr>
-            <th th:each="colum : ${collist.hList}" scope="col" th:text="${{colum}}">Measurement Id</th>
+            <th th:each="colum : ${collist.hColNames}" scope="col" th:text="${{colum}}">Measurement Id</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="measurement : ${collist.hDisplayList}">
+        <tr th:each="measurement : ${collist.hContent}">
             <td th:each="coll : ${measurement}" th:text="${{coll}}">id</td>
             <td>
                 <a class="btn btn-primary" type="button"
-                   th:href="@{/healthmeasurements/{id}/editGen{mtype}(id=${measurement[0]}, mtype=${collist.hMType})}">edit</a>
+                   th:href="@{/healthmeasurements/{id}/editGen{mtype}(id=${measurement[0]}, mtype=${collist.hDataGroupName})}">edit</a>
                 <a class="btn btn-primary" type="button"
-                   th:href="@{/healthmeasurements/{id}/deleteGen{mtype}(id=${measurement[0]}, mtype=${collist.hMType})}">delete</a>
+                   th:href="@{/healthmeasurements/{id}/deleteGen{mtype}(id=${measurement[0]}, mtype=${collist.hDataGroupName})}">delete</a>
             </td>
         </tr>
         </tbody>

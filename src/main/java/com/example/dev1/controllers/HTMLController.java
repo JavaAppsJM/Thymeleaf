@@ -2,6 +2,8 @@ package com.example.dev1.controllers;
 
 import com.example.dev1.domain.BellyMesurement;
 import com.example.dev1.domain.BloodPressureMesurement;
+import com.example.dev1.services.HTMLIntEdit;
+import com.example.dev1.services.HTMLTemplate;
 import com.example.dev1.services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,21 +21,19 @@ public class HTMLController {
     // Controllers for Belly measurements
     @GetMapping("/getAllGenBellyMs")
     public ModelAndView getAllGenBellyMs(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
-        modelMap.addAttribute("collist", measurementService.fillBellyColTemplate(measurementService.getAllBellyMs()));
+        modelMap.addAttribute("collist", measurementService.fillIntDisplayWBelly(measurementService.getAllBellyMs()));
         return new ModelAndView("measurementDisplay", modelMap);
-//        modelMap.addAttribute("belly", measurementService.getAllBellyMs());
-//        return new ModelAndView("bellyDisplay", modelMap);
     }
 
     @GetMapping("/addGenBellyM")
     public ModelAndView addGenBellyM(ModelMap modelMap) {
-        modelMap.addAttribute("GenMap", measurementService.fillBellyInHtmlTemplate(new BellyMesurement(), "add"));
+        modelMap.addAttribute("GenMap", measurementService.fillIntEditWBelly(new BellyMesurement(), "add"));
         return new ModelAndView("measurementEdit", modelMap);
     }
 
     @GetMapping("/{id}/editGenBellyM") // <---- Creates url in the form of localhost:port/healthmesurements/{id}/edit
     public ModelAndView editGenBellyM(@PathVariable("id") int id, ModelMap modelMap) {
-        modelMap.addAttribute("GenMap", measurementService.fillBellyInHtmlTemplate(measurementService.findById(id), "edit"));
+        modelMap.addAttribute("GenMap", measurementService.fillIntEditWBelly(measurementService.findById(id), "edit"));
         return new ModelAndView("measurementEdit", modelMap);
     }
 
@@ -44,14 +44,14 @@ public class HTMLController {
     }
 
     @PostMapping("/editGenBellyM")
-    public ModelAndView editPostGenBellyM(@ModelAttribute HTMLTemplate template) {
-        measurementService.update(measurementService.moveTemplateInBelly(template));
+    public ModelAndView editPostGenBellyM(@ModelAttribute HTMLIntEdit template) {
+        measurementService.update(measurementService.moveIntEditInBelly(template));
         return new ModelAndView("redirect:/healthmeasurements/getAllGenBellyMs");
     }
 
     @PostMapping("/addGenBellyM")
-    public ModelAndView addPostGenBellyM(@ModelAttribute HTMLTemplate template) {
-        measurementService.addBellyM(measurementService.moveTemplateInBelly(template));
+    public ModelAndView addPostGenBellyM(@ModelAttribute HTMLIntEdit template) {
+        measurementService.addBellyM(measurementService.moveIntEditInBelly(template));
         return new ModelAndView("redirect:/healthmeasurements/getAllGenBellyMs");
     }
 
@@ -61,28 +61,25 @@ public class HTMLController {
 
     @GetMapping("/getAllGenBPresMs")
     public ModelAndView getAllGenBPresMs(ModelMap modelMap) { // ModelMap is like a Hashmap spring will automatically initialize this for you.
-        modelMap.addAttribute("collist", measurementService.fillBPresColTemplate(measurementService.getAllBPresMs()));
-        modelMap.addAttribute("measurements", measurementService.getAllBPresMs());
+        modelMap.addAttribute("collist", measurementService.fillIntDisplayWBPres(measurementService.getAllBPresMs()));
         return new ModelAndView("measurementDisplay", modelMap);
-//        modelMap.addAttribute("bpres", measurementService.getAllBPresMs());
-//        return new ModelAndView("bpressDisplay", modelMap);
     }
 
     @GetMapping("/addGenBPresM")
     public ModelAndView addGenBPresM(ModelMap modelMap) {
-        modelMap.addAttribute("GenMap", measurementService.fillBPresInHtmlTemplate(new BloodPressureMesurement(), "add"));
+        modelMap.addAttribute("GenMap", measurementService.fillIntEditWBPres(new BloodPressureMesurement(), "add"));
         return new ModelAndView("measurementEdit", modelMap);
     }
 
     @PostMapping("/addGenBPresM")
-    public ModelAndView addPostGenBPresM(@ModelAttribute HTMLTemplate template) {
+    public ModelAndView addPostGenBPresM(@ModelAttribute HTMLIntEdit template) {
         measurementService.addBPresM(measurementService.moveTemplateInBPres(template));
         return new ModelAndView("redirect:/healthmeasurements/getAllGenBPresMs");
     }
 
     @GetMapping("/{id}/editGenBPresM") // <---- Creates url in the form of localhost:port/healthmesurements/{id}/edit
     public ModelAndView editGenBPresM(@PathVariable("id") int id, ModelMap modelMap) {
-        modelMap.addAttribute("GenMap", measurementService.fillBPresInHtmlTemplate(measurementService.findBPresById(id), "edit"));
+        modelMap.addAttribute("GenMap", measurementService.fillIntEditWBPres(measurementService.findBPresById(id), "edit"));
         return new ModelAndView("measurementEdit", modelMap);
     }
 
@@ -93,8 +90,8 @@ public class HTMLController {
     }
 
     @PostMapping("/editGenBPresM")
-    public ModelAndView editPostGenBPresM(@ModelAttribute HTMLTemplate template) {
-        measurementService.updateBPres(measurementService.moveTemplateInBPres(template));
+    public ModelAndView editPostGenBPresM(@ModelAttribute HTMLIntEdit template) {
+        measurementService.updateBPres(measurementService.moveIntEditInBPres(template));
         return new ModelAndView("redirect:/healthmeasurements/getAllGenBPresMs");
     }
 

@@ -1,4 +1,4 @@
-package com.example.dev1.controllers;
+package com.example.dev1.services;
 
 import com.example.dev1.domain.BellyMesurement;
 import com.example.dev1.domain.BloodPressureMesurement;
