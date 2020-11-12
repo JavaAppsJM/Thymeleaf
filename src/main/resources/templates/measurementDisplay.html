@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title th:text="${{collist.hTitle}}">Display Health Measurements</title>
-    <link rel="stylesheet" type="text/css" media="all" href="../static/main.css" th:href="@{main.css}" />
+    <link rel="stylesheet" type="text/css" media="all" href="../static/main.css" th:href="@{../main.css}" />
 
 </head>
 <body>
@@ -33,7 +34,7 @@
 
 </div>
 
-<script src="../static/script.js" th:src="@{script.js}"></script>
+<script src="../static/script.js" th:src="@{../script.js}"></script>
 
 </body>
 </html>
