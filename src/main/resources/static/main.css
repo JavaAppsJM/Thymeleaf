@@ -1,9 +1,28 @@
-
+/* main.css */
 body {
-background-color:grey;
+background-color:#fef7ea;
 }
-
-#editdatefields {
-width:4em;
+table {
+  text-align: center;
+}
+label {
+  width:10em;
+  display:inline-block;
+}
+input {
+  text-align: right;
+  width:9.5em;
+}
+#submitbutton {
+  text-align:center;
+}
+#editdatefields input {
+display:inline-block;
 text-align:center;
+}
+#measurementDay, #measurementMonth {
+width:3em;
+}
+#measurementYear {
+width:5em;
 }
